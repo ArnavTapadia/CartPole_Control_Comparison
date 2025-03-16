@@ -5,7 +5,7 @@ function motion_plots(T, X)
     % Extract position and angle
     x = X(:, 1);     % Cart position
     theta = X(:, 3); % Pendulum angle
-    theta = wrapTo2Pi(theta)*180/pi; % keep within [0,2pi)
+    theta = X(:, 3)./abs(X(:, 3)).*mod(abs(X(:, 3)), 2*pi); % keep within [-pi and pi]
 
     % Create figure
     figure;
@@ -22,7 +22,7 @@ function motion_plots(T, X)
     subplot(2,1,2);
     plot(T, theta, 'r', 'LineWidth', 1.5);
     xlabel('Time (s)');
-    ylabel('Pendulum Angle (deg)');
+    ylabel('Pendulum Angle (rad)');
     title('Pendulum Angle vs. Time');
     grid on;
 end

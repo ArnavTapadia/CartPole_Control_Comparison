@@ -5,7 +5,7 @@ clc; clear; close all;
 
 
 %% Define initial conditions: [x, dx, theta, dtheta]
-X0 = [0; 0; -0.4; 0]; % Example initial conditions
+X0 = [0; 0; 0.4; 0]; % Example initial conditions
 
 %% Define the force function (sinusoidal input)
 A = 50;      % Force amplitude (N)
