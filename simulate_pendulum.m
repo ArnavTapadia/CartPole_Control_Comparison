@@ -3,9 +3,9 @@
 % ------------------------
 
 function [T, X] = simulate_pendulum()
-    params = parameters
+    params = parameters;
     % Initial conditions: [x, dx, theta, dtheta]
-    X0 = [0; 0; 5*pi/4; 0]; % Small initial angle
+    X0 = [0; 0; -0.3; -4]; % Small initial angle
 
     % Define the sinusoidal force function
     A = 50;      % Force amplitude (N)

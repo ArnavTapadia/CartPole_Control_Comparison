@@ -30,8 +30,8 @@ function animation(T, X, params)
         theta = X(i, 3); % Pendulum angle
 
         % Compute pendulum tip position
-        pend_x = x + L * sin(theta);
-        pend_y = cart_height/2 - L * cos(theta);
+        pend_x = x - L * sin(theta);
+        pend_y = cart_height/2 + L * cos(theta);
 
         % Update cart position
         cart.Position = [x - cart_width/2, 0, cart_width, cart_height];
