@@ -15,6 +15,6 @@ function params = parameters()
     % Animation properties
     params.cart_width = 0.4;
     params.cart_height = 0.2;
-    params.track_length = 5;
+    params.track_length = 10;
     params.ball_radius = 0.05 * params.L; % Size of the pendulum mass
 end
