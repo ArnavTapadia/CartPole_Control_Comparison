@@ -5,7 +5,7 @@ function motion_plots(T, X)
     % Extract position and angle
     x = X(:, 1);     % Cart position
     theta = X(:, 3); % Pendulum angle
-    theta = wrapTo2Pi(theta)*180/pi; % keep within [0,2pi)
+    theta = wrapToPi(theta)*180/pi; % keep within [0,2pi)
 
     % Create figure
     figure;
