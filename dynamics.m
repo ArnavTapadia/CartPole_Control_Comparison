@@ -15,28 +15,22 @@ function dXdt = dynamics(t, X, params, u)
     I = params.I;
     g = params.g;
     b = params.b;
-    mu_pivot = params.mu_pivot; % Pivot kinetic friction torque
+    mu_pivot = params.mu_pivot;
 
-    % Compute system accelerations
-    % denominator = M + m - m * cos_theta^2;
+    % Fluid friction and pivot friction
+    F_f = b * dx; 
+    tau_f = mu_pivot * dtheta; 
 
-    % Fluid friction on cart motion
-    F_f = b * dx; % Opposes motion sign is in the EOMs
+    % System matrices
+    A = [(m_c+m_p), (-m_p*L*cos(theta)); 
+         (m_p*L*cos(theta)), -I];
+    B = [(u - F_f - m_p*L*sin(theta)*dtheta^2); 
+         (tau_f - m_p*g*L*sin(theta))];
 
-    % Constant frictional torque at the pivot
-    tau_f = mu_pivot * dtheta; % Opposes angular motion sign is in the EOMs
-
-    A = [(m_c+m_p), (-m_p*L*cos(theta)); (m_p*L*cos(theta)), -I];
-    B = [(u - F_f - m_p*L*sin(theta)*dtheta^2); (tau_f - m_p*g*L*sin(theta))];
-
+    % Solve for accelerations
     ddxddtheta = A\B;
-
     ddx = ddxddtheta(1);
     ddtheta = ddxddtheta(2);
-
-    % Compute accelerations
-    % ddx = (u + m * sin_theta * (L * dtheta^2 + g * cos_theta) + F_f) / denominator;
-    % ddtheta = (-u * cos_theta - m * L * dtheta^2 * cos_theta * sin_theta - (M + m) * g * sin_theta + tau_f) / (L * denominator);
 
     % Return derivatives
     dXdt = [dx; ddx; dtheta; ddtheta];

@@ -3,21 +3,31 @@
 % ------------------------
 clc; clear; close all;
 
-
 %% Define initial conditions: [x, dx, theta, dtheta]
 X0 = [0; 0; 0.4; 0]; % Example initial conditions
 
-%% Define the force function (sinusoidal input)
-A = 50;      % Force amplitude (N)
-omega = 10;  % Frequency (rad/s)
-force_function = @(t) 0; % Change as needed
+%% Choose Control Method
+control_type = 'PID'; % Options: 'PID', 'LQR', etc.
 
-%% Run the simulation
-[T, X] = simulate_pendulum(X0, force_function);
+% Define the control function handle
+if strcmp(control_type, 'PID')
+    Kp = 0.5;   % Proportional gain
+    Ki = 0;     % Integral gain
+    Kd = 0;    % Derivative gain
+    force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd);
+elseif strcmp(control_type, 'LQR')
+    force_function = @(t, X) lqr_controller(t, X); % Placeholder for LQR
+else
+    force_function = @(t, X) 0; % No control
+end
 
-%% Plot motion data (cart position and pendulum angle)
+%% Run Simulation
+[T, X, U] = simulate_pendulum(X0, force_function);
+
+%% Plot Results
 motion_plots(T, X);
+figure; plot(T, U, 'r'); xlabel('Time (s)'); ylabel('Control Force (N)');
+title('Control Force Over Time');
 
-%% Animate the cart-pendulum motion
+%% Animate
 animation(T, X);
-

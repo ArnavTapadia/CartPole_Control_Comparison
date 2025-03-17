@@ -10,7 +10,7 @@ function params = parameters()
     params.g = 9.81;         % Acceleration due to gravity (m/s^2)
     params.b = 0.5;            % Fluid friction coefficient for cart motion
     params.mu_pivot = 0.4;     % Constant fluid friction coefficient at the pivot
-    params.tspan = [0 20];   % Simulation time span (seconds)
+    params.tspan = [0 15];   % Simulation time span (seconds)
     
     % Animation properties
     params.cart_width = 0.4;
