@@ -16,6 +16,9 @@ function dXdt = dynamics(t, X, params, u)
     g = params.g;
     b = params.b;
     mu_pivot = params.mu_pivot;
+    max_force = params.control_force_max;
+
+    u = sign(u)*min(abs(u),max_force);
 
     % Fluid friction and pivot friction
     F_f = b * dx; 

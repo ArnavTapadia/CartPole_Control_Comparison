@@ -11,9 +11,9 @@ control_type = 'PID'; % Options: 'PID', 'LQR', etc.
 
 % Define the control function handle
 if strcmp(control_type, 'PID')
-    Kp = 100;   % Proportional gain
-    Ki = 0.00001;     % Integral gain
-    Kd = 5;    % Derivative gain
+    Kp = 50;   % Proportional gain
+    Ki = -0.0005;     % Integral gain
+    Kd = 4;    % Derivative gain
     force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd);
 elseif strcmp(control_type, 'LQR')
     force_function = @(t, X) lqr_controller(t, X); % Placeholder for LQR
