@@ -1,21 +1,14 @@
 function u = pid_controller(t, X, Kp, Ki, Kd)
-    persistent prev_error integral_term last_time;
+    persistent integral_term last_time;
     
-    if isempty(prev_error)
-        prev_error = 0;
+    if isempty(integral_term)
         integral_term = 0;
         last_time = t;
     end
     
     % Extract state variables
-    theta = X(3); % Pendulum angle (rad)
-    dtheta = X(4); % Angular velocity (rad/s)
-
-    % Define desired setpoint (upright position)
-    theta_desired = 0; 
-
-    % Compute error
-    error = theta_desired - theta;
+    theta = X(3);   % Pendulum angle (rad)
+    dtheta = X(4);  % Angular velocity (rad/s)
 
     % Compute time difference
     dt = t - last_time;
@@ -24,13 +17,12 @@ function u = pid_controller(t, X, Kp, Ki, Kd)
     end
 
     % Compute PID terms
-    integral_term = integral_term + error * dt;
-    derivative_term = (error - prev_error) / dt;
+    integral_term = integral_term + (-theta) * dt; % Integral of error
+    derivative_term = -dtheta; % Since d(error)/dt = -dtheta
 
     % Compute control force
-    u = Kp * error + Ki * integral_term + Kd * derivative_term;
+    u = Kp * (-theta) + Ki * integral_term + Kd * derivative_term;
 
     % Update persistent variables
-    prev_error = error;
     last_time = t;
 end
