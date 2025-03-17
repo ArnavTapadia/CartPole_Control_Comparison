@@ -20,8 +20,18 @@ function u = pid_controller(t, X, Kp, Ki, Kd)
     integral_term = integral_term + (-theta) * dt; % Integral of error
     derivative_term = -dtheta; % Since d(error)/dt = -dtheta
 
+
+    % Define a maximum limit for the integral term
+    integral_max = 10;  % Adjust based on system needs
+
+    integral_term = max(min(integral_term, integral_max), -integral_max);
+
+
     % Compute control force
     u = Kp * (-theta) + Ki * integral_term + Kd * derivative_term;
+
+    force_max = 100; % Maximum allowable force
+    u = max(min(u, force_max), -force_max);
 
     % Update persistent variables
     last_time = t;
