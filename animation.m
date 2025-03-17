@@ -27,6 +27,9 @@ function animation(T, X)
     ball = rectangle('Position', [-ball_radius, L - ball_radius, 2*ball_radius, 2*ball_radius], ...
                      'Curvature', [1, 1], 'FaceColor', 'k'); % Black ball at the pendulum tip
     
+    PEND_X = X(:,1) - L * sin(X(:, 3));
+    PEND_Y = cart_height/2 + L * cos(X(:, 3));
+
     % Animation Loop
     for i = 1:length(T)
         % Extract state variables
@@ -34,8 +37,8 @@ function animation(T, X)
         theta = X(i, 3); % Pendulum angle (defined anticlockwise from up)
 
         % Compute pendulum tip position (keeping original angle definition)
-        pend_x = x - L * sin(theta);
-        pend_y = cart_height/2 + L * cos(theta);
+        pend_x = PEND_X(i);
+        pend_y = PEND_Y(i);
 
         % Update cart position
         cart.Position = [x - cart_width/2, 0, cart_width, cart_height];
