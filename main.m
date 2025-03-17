@@ -4,16 +4,16 @@
 clc; clear; close all;
 
 %% Define initial conditions: [x, dx, theta, dtheta]
-X0 = [0; 0; 0.5; 0]; % Example initial conditions
+X0 = [0; 0; 0.1; 0]; % Example initial conditions
 
 %% Choose Control Method
 control_type = 'PID'; % Options: 'PID', 'LQR', etc.
 
 % Define the control function handle
 if strcmp(control_type, 'PID')
-    Kp = 50;   % Proportional gain
-    Kd = 10;    % Derivative gain
-    Ki = 0;     % Integral gain
+    Kp = 100;   % Proportional gain
+    Ki = 0.00001;     % Integral gain
+    Kd = 5;    % Derivative gain
     force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd);
 elseif strcmp(control_type, 'LQR')
     force_function = @(t, X) lqr_controller(t, X); % Placeholder for LQR
