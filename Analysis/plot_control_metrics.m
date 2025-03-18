@@ -18,22 +18,24 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
 
     % Define a set of distinct colors for different controllers
     colors = lines(10); % Generate a colormap (10 distinct colors)
-    persistent color_idx controller_names settling_times overshoots;
+    persistent color_idx controller_names settling_times overshoots controller_colors;
     
     if isempty(color_idx)
         color_idx = 1;
         controller_names = {};
         settling_times = [];
         overshoots = [];
+        controller_colors = [];
     else
         color_idx = mod(color_idx, size(colors, 1)) + 1;
     end
     color = colors(color_idx, :); % Assign color for this call
 
-    % Store controller name and values for bar/scatter plots
+    % Store controller name and values for bar plots
     controller_names{end+1} = controller_name;
     settling_times(end+1) = settling_time;
     overshoots(end+1) = overshoot;
+    controller_colors = [controller_colors; color]; % Store colors for consistency
 
     % Subplot 1: Integrated Control Effort (U^2)
     subplot(3, 2, 1);
@@ -58,8 +60,10 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     % Subplot 3: Settling Time (Bar Graph)
     subplot(3, 2, 3);
     hold off;
-    bar(settling_times, 'FaceColor', 'flat');
-    colormap(colors(1:length(settling_times), :)); % Set bar colors to match the controllers
+    bar_handle = bar(settling_times, 'FaceColor', 'flat');
+    for i = 1:length(settling_times)
+        bar_handle.CData(i, :) = controller_colors(i, :); % Assign correct color
+    end
     xticks(1:length(controller_names));
     xticklabels(controller_names);
     xlabel('Controller');
@@ -67,10 +71,13 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     title('Settling Time Comparison');
     grid on;
 
-    % Subplot 4: Overshoot (Scatter Plot)
+    % Subplot 4: Overshoot (Bar Graph)
     subplot(3, 2, 4);
     hold off;
-    scatter(1:length(overshoots), overshoots, 100, colors(1:length(overshoots), :), 'filled');
+    bar_handle = bar(overshoots, 'FaceColor', 'flat');
+    for i = 1:length(overshoots)
+        bar_handle.CData(i, :) = controller_colors(i, :); % Assign correct color
+    end
     xticks(1:length(controller_names));
     xticklabels(controller_names);
     xlabel('Controller');
