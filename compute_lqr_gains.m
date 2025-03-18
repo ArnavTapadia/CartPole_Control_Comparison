@@ -9,13 +9,13 @@ function K = compute_lqr_gains()
     b = params.b;
     mu_pivot = params.mu_pivot;
     
-    % Define A matrix (linearized around theta = 0) TO FIX
+    % Define A matrix (linearized around theta = 0)
     A = [0 1 0 0;
          0 -b/m_c m_p*g/m_c -mu_pivot/(m_c*L);
          0 0 0 1;
          0 -b/(m_c*L) (m_c+m_p)*g/(m_c*L) -(m_c+m_p)*mu_pivot/(m_p*m_c*L^2)];
 
-    % Define B matrix TO FIX
+    % Define B matrix
     B = [0;
          1/m_c;
          0;
