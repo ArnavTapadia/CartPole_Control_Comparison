@@ -9,7 +9,7 @@ X0 = [0; 0; 0.2; 0; 0]; % Example initial conditions
 params = parameters;
 
 %% Choose Control Method
-control_type = 'LQR'; % Options: 'PID', 'LQR', etc.
+control_type = 'PID'; % Options: 'PID', 'LQR', etc.
 
 % Define the control function handle
 if strcmp(control_type, 'PID')
@@ -29,8 +29,10 @@ end
 
 %% Plot Results
 motion_plots(T, X);
-% figure; plot(T, U, 'r'); xlabel('Time (s)'); ylabel('Control Force (N)');
-% title('Control Force Over Time');
-% 
-% %% Animate
-animation(T, X, params);
+
+%% Compute and Plot Control Metrics
+fig = figure('Name', 'Control Metrics');
+plot_control_metrics(fig, T, X, U, params);
+
+%% Animate
+% animation(T, X, params);
