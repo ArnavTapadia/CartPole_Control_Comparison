@@ -8,10 +8,10 @@ function params = parameters()
     params.L = 1.5;          % Length of the pendulum (m)
     params.I = params.m_p * params.L^2; % Moment of Inertia of Pendulum (kg*m^2)
     params.g = 9.81;         % Acceleration due to gravity (m/s^2)
-    params.b = 0.00;            % Fluid friction coefficient for cart motion
-    params.mu_pivot = 0.0;     % Constant fluid friction coefficient at the pivot
-    params.tspan = [0 30];   % Simulation time span (seconds)
-    params.control_force_max = 100; %Maximum control force that can be appliedN
+    params.b = 0.05;            % Fluid friction coefficient for cart motion
+    params.mu_pivot = 0.05;     % Constant fluid friction coefficient at the pivot
+    params.tspan = [0 15];   % Simulation time span (seconds)
+    params.control_force_max = 20; %Maximum control force that can be appliedN
     
     % Animation properties
     params.cart_width = 0.4;

@@ -7,6 +7,7 @@ function dXdt = dynamics(t, X, params, u)
     dx = X(2);           % Cart velocity
     theta = X(3);        % Pendulum angle (radians)
     dtheta = X(4);       % Pendulum angular velocity
+    error = -theta;      % Error from 0 radians
     
     % Extract parameters
     m_c = params.m_c;
@@ -36,5 +37,6 @@ function dXdt = dynamics(t, X, params, u)
     ddtheta = ddxddtheta(2);
 
     % Return derivatives
-    dXdt = [dx; ddx; dtheta; ddtheta];
+    %error is assigned as derivative so it is integrated by ode45
+    dXdt = [dx; ddx; dtheta; ddtheta; error];
 end
