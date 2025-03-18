@@ -7,7 +7,7 @@ clc; clear; close all;
 X0 = [0; 0; 0.2; 0; 0]; % Example initial conditions
 
 %% Choose Control Method
-control_type = 'PID'; % Options: 'PID', 'LQR', etc.
+control_type = 'LQR'; % Options: 'PID', 'LQR', etc.
 
 % Define the control function handle
 if strcmp(control_type, 'PID')
@@ -16,7 +16,7 @@ if strcmp(control_type, 'PID')
     Kd = 10;    % Derivative gain
     force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd);
 elseif strcmp(control_type, 'LQR')
-    force_function = @(t, X) lqr_controller(t, X); % Placeholder for LQR
+    force_function = @(t, X) lqr_controller(t, X);
 else
     force_function = @(t, X) 0; % No control
 end
@@ -26,8 +26,8 @@ end
 
 %% Plot Results
 motion_plots(T, X);
-figure; plot(T, U, 'r'); xlabel('Time (s)'); ylabel('Control Force (N)');
-title('Control Force Over Time');
-
-%% Animate
+% figure; plot(T, U, 'r'); xlabel('Time (s)'); ylabel('Control Force (N)');
+% title('Control Force Over Time');
+% 
+% %% Animate
 animation(T, X);
