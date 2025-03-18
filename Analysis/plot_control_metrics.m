@@ -68,7 +68,7 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     xticklabels(controller_names);
     xlabel('Controller');
     ylabel('Settling Time (s)');
-    title('Settling Time Comparison');
+    title('Settling Time Comparison (Time Until |angle| < 1 degree)');
     grid on;
 
     % Subplot 4: Overshoot (Bar Graph)
@@ -82,7 +82,7 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     xticklabels(controller_names);
     xlabel('Controller');
     ylabel('Overshoot (rad)');
-    title('Overshoot Comparison');
+    title('Largest Overshoot Comparison');
     grid on;
 
     % Subplot 5: Energy Expended by External Force
