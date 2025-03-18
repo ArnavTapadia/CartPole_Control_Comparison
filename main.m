@@ -2,6 +2,7 @@
 % main.m - Run Everything
 % ------------------------
 clc; clear; close all;
+set(0,'DefaultFigureWindowStyle','docked');
 
 %% Define initial conditions: [x, dx, theta, dtheta]
 X0 = [0; 0; 0.2; 0; 0]; % Example initial conditions
