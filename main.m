@@ -4,7 +4,8 @@
 clc; clear; close all;
 
 %% Define initial conditions: [x, dx, theta, dtheta]
-X0 = [0; 0; 0.2; 0; 0]; % Example initial conditions
+X0 = [0; 0; 0.7; 0; 0; 0]; % Example initial conditions
+
 params = parameters;
 
 %% Choose Control Method

@@ -12,5 +12,11 @@ function [T, X, U] = simulate_pendulum(X0, force_function, params)
 
     % Compute control forces over time
     U = arrayfun(@(i) force_function(T(i), X(i, :)'), 1:length(T));
+    U2 = gradient(X(:,6),T);
+    % figure;
+    % plot(T, U, 'r.'); xlabel('Time (s)'); ylabel('Control Force (N)');
+    % hold on;
+    % plot(T, U2, 'b.');
+    % title('Control Force Over Time');
 end
 

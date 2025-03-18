@@ -35,5 +35,6 @@ function dXdt = dynamics(t, X, params, u)
 
     % Return derivatives
     %error is assigned as derivative so it is integrated by ode45
-    dXdt = [dx; ddx; dtheta; ddtheta; error];
+    %u is assigned as a derivative and will be integrated by ode45
+    dXdt = [dx; ddx; dtheta; ddtheta; error; u];
 end
