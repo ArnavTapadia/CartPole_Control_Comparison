@@ -28,7 +28,8 @@ end
 [T, X, U] = simulate_pendulum(X0, force_function, params);
 
 %% Plot Results
-motion_plots(T, X);
+fig_motion = figure('Name', 'Motion Plots');
+motion_plots(fig_motion, T, X, control_type);
 
 %% Compute and Plot Control Metrics
 fig = figure('Name', 'Control Metrics');

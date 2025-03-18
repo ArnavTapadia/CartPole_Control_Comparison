@@ -14,18 +14,26 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
 
     % Set the provided figure as active
     figure(fig);
-    hold on; % Ensure plots from different controllers appear on the same figure
     sgtitle('Control Metrics'); % Set overall title for subplots
 
     % Define a set of distinct colors for different controllers
     colors = lines(10); % Generate a colormap (10 distinct colors)
-    persistent color_idx;
+    persistent color_idx controller_names settling_times overshoots;
+    
     if isempty(color_idx)
         color_idx = 1;
+        controller_names = {};
+        settling_times = [];
+        overshoots = [];
     else
         color_idx = mod(color_idx, size(colors, 1)) + 1;
     end
     color = colors(color_idx, :); % Assign color for this call
+
+    % Store controller name and values for bar/scatter plots
+    controller_names{end+1} = controller_name;
+    settling_times(end+1) = settling_time;
+    overshoots(end+1) = overshoot;
 
     % Subplot 1: Integrated Control Effort (U^2)
     subplot(3, 2, 1);
@@ -47,30 +55,28 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     grid on;
     legend show;
 
-    % Subplot 3: Settling Time (Vertical Line)
+    % Subplot 3: Settling Time (Bar Graph)
     subplot(3, 2, 3);
-    hold on;
-    plot(T, abs(X(:, 3)), 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    yline(params.epsilon, '--g', 'Settling Threshold');
-    if settling_time < T(end)
-        xline(settling_time, '--', 'Color', color, 'DisplayName', [controller_name ' Settling Time']);
-    end
-    xlabel('Time (s)');
-    ylabel('Theta (rad)');
-    title('Settling Time');
+    hold off;
+    bar(settling_times, 'FaceColor', 'flat');
+    colormap(colors(1:length(settling_times), :)); % Set bar colors to match the controllers
+    xticks(1:length(controller_names));
+    xticklabels(controller_names);
+    xlabel('Controller');
+    ylabel('Settling Time (s)');
+    title('Settling Time Comparison');
     grid on;
-    legend show;
 
-    % Subplot 4: Overshoot (Max Theta After Zero Crossing)
+    % Subplot 4: Overshoot (Scatter Plot)
     subplot(3, 2, 4);
-    hold on;
-    plot(T, abs(X(:, 3)), 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    yline(overshoot, '--', 'Color', color, 'DisplayName', [controller_name ' Overshoot']);
-    xlabel('Time (s)');
-    ylabel('Theta (rad)');
-    title('Overshoot');
+    hold off;
+    scatter(1:length(overshoots), overshoots, 100, colors(1:length(overshoots), :), 'filled');
+    xticks(1:length(controller_names));
+    xticklabels(controller_names);
+    xlabel('Controller');
+    ylabel('Overshoot (rad)');
+    title('Overshoot Comparison');
     grid on;
-    legend show;
 
     % Subplot 5: Energy Expended by External Force
     subplot(3, 2, 5);
