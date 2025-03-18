@@ -2,8 +2,7 @@
 % simulate_pendulum.m - Run Simulation with ode45
 % ------------------------
 
-function [T, X, U] = simulate_pendulum(X0, force_function)
-    params = parameters;
+function [T, X, U] = simulate_pendulum(X0, force_function, params)
 
     % Create function handle for ode45
     ode_func = @(t, X) dynamics(t, X, params, force_function(t, X));

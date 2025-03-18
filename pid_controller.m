@@ -1,4 +1,4 @@
-function u = pid_controller(t, X, Kp, Ki, Kd)
+function u = pid_controller(t, X, Kp, Ki, Kd, params)
 
     
     % Extract state variables
@@ -13,5 +13,6 @@ function u = pid_controller(t, X, Kp, Ki, Kd)
 
     % Compute control force
     u = Kp * (-theta) + Ki * integral_term + Kd * derivative_term;
+    u = sign(u)*min(abs(u),params.control_force_max); %max allowed force
 
 end

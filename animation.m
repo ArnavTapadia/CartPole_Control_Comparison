@@ -1,6 +1,5 @@
-function animation(T, X)
+function animation(T, X, params)
     % Extract parameters
-    params = parameters;
     L = params.L;
     cart_width = params.cart_width;
     cart_height = params.cart_height;

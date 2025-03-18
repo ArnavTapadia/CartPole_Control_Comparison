@@ -1,4 +1,4 @@
-function u = lqr_controller(t, X, K)
+function u = lqr_controller(t, X, K, params)
     
     % Extract state variables
     x = X(1);
@@ -13,5 +13,5 @@ function u = lqr_controller(t, X, K)
 
     % Compute control force using LQR
     u = -K * (X_state-reference);
-    u = sign(u)*min(abs(u),parameters().control_force_max);
+    u = sign(u)*min(abs(u),params.control_force_max); %max allowed force
 end
