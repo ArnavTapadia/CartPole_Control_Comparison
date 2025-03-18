@@ -32,7 +32,7 @@ motion_plots(T, X);
 
 %% Compute and Plot Control Metrics
 fig = figure('Name', 'Control Metrics');
-plot_control_metrics(fig, T, X, U, params);
+plot_control_metrics(fig, T, X, U, params, control_type);
 
 %% Animate
 % animation(T, X, params);
