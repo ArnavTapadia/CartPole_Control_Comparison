@@ -1,6 +1,4 @@
-function K = compute_lqr_gains()
-    params = parameters();
-    
+function K = compute_lqr_gains(params)    
     % Extract parameters
     m_c = params.m_c;
     m_p = params.m_p;

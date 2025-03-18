@@ -17,7 +17,7 @@ if strcmp(control_type, 'PID')
     Kd = 10;    % Derivative gain
     force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd, params);
 elseif strcmp(control_type, 'LQR')
-    K = compute_lqr_gains();
+    K = compute_lqr_gains(params);
     force_function = @(t, X) lqr_controller(t, X, K, params);
 else
     force_function = @(t, X) 0; % No control
