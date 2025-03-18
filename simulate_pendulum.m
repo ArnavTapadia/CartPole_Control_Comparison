@@ -11,6 +11,6 @@ function [T, X, U] = simulate_pendulum(X0, force_function, params)
     [T, X] = ode45(ode_func, params.tspan, X0);
 
     % Compute control forces over time
-    U = arrayfun(@(i) force_function(T(i), X(i, :)'), 1:length(T));
+    U = arrayfun(@(i) force_function(T(i), X(i, :)'), 1:length(T))'; %' to ensure it is vertical vector
 end
 
