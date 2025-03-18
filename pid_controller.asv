@@ -1,0 +1,23 @@
+function u = pid_controller(t, X, Kp, Ki, Kd)
+
+    
+    % Extract state variables
+    theta = X(3);   % Pendulum angle (rad)
+    dtheta = X(4);  % Angular velocity (rad/s)
+    
+
+    % Compute PID terms
+    integral_term = X(5);
+    derivative_term = -dtheta; % Since d(error)/dt = -dtheta
+
+
+    % Define a maximum limit for the integral term
+    % integral_max = 100;  % Adjust based on system needs
+    % 
+    % integral_term = max(min(integral_term, integral_max), -integral_max);
+
+
+    % Compute control force
+    u = Kp * (-theta) + Ki * integral_term + Kd * derivative_term;
+
+end
