@@ -4,7 +4,7 @@
 clc; clear; close all;
 
 %% Define initial conditions: [x, dx, theta, dtheta]
-X0 = [0; 0; 0.1; 0]; % Example initial conditions
+X0 = [0; 0; 0; 0.1]; % Example initial conditions
 
 %% Choose Control Method
 control_type = 'PID'; % Options: 'PID', 'LQR', etc.
@@ -12,7 +12,7 @@ control_type = 'PID'; % Options: 'PID', 'LQR', etc.
 % Define the control function handle
 if strcmp(control_type, 'PID')
     Kp = 50;   % Proportional gain
-    Ki = -0.0005;     % Integral gain
+    Ki = 0.0005;     % Integral gain
     Kd = 4;    % Derivative gain
     force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd);
 elseif strcmp(control_type, 'LQR')
@@ -30,4 +30,4 @@ motion_plots(T, X);
 % title('Control Force Over Time');
 
 %% Animate
-% animation(T, X);
+animation(T, X);
