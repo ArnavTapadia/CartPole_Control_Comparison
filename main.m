@@ -16,7 +16,8 @@ if strcmp(control_type, 'PID')
     Kd = 10;    % Derivative gain
     force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd);
 elseif strcmp(control_type, 'LQR')
-    force_function = @(t, X) lqr_controller(t, X);
+    K = compute_lqr_gains();
+    force_function = @(t, X) lqr_controller(t, X, K);
 else
     force_function = @(t, X) 0; % No control
 end
@@ -26,8 +27,8 @@ end
 
 %% Plot Results
 motion_plots(T, X);
-% figure; plot(T, U, 'r'); xlabel('Time (s)'); ylabel('Control Force (N)');
-% title('Control Force Over Time');
+figure; plot(T, U, 'r'); xlabel('Time (s)'); ylabel('Control Force (N)');
+title('Control Force Over Time');
 % 
 % %% Animate
 animation(T, X);
