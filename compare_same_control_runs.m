@@ -15,10 +15,13 @@ fig_motion = figure('Name', 'Motion Plots');
 fig_metrics = figure('Name', 'Metrics');
 
 %% Run Simulation for PID Kp=50
-for i = 1:5
-Kp = 50; Ki = 105; Kd = 10;
-    force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd, params);
+%  
+
+for i = 1:7
+%% Run Simulation for LQR
+    K = compute_lqr_gains(params);
+    force_function = @(t, X) lqr_controller(t, X, K, params);
     [T, X, U] = simulate_pendulum(X0, force_function, params);
-    motion_plots(fig_motion, T, X, ['PID Kp=50 run ' num2str(i)]);
-    plot_control_metrics(fig_metrics, T, X, U, params, ['PID Kp=50 run ' num2str(i)]);
+    motion_plots(fig_motion, T, X, 'LQR');
+    plot_control_metrics(fig_metrics, T, X, U, params, 'LQR');
 end
