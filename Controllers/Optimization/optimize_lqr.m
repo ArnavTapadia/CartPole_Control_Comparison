@@ -2,8 +2,8 @@ function [Q_opt, R_opt] = optimize_lqr(X0, params)
     % Optimize the diagonal entries of Q and scalar R for LQR using fmincon
 
     % --- Initial guess: Q diagonal [q1, q2, q3, q4] and scalar R ---
-    Q_diag_init = [1, 1, 10, 100];
-    R_init = 0.1;
+    Q_diag_init = [1, 1, 1, 1];
+    R_init = 1;
     initial_guess = [Q_diag_init, R_init];
 
     % --- Lower bounds: Q_diag >= 0, R > 0 ---
