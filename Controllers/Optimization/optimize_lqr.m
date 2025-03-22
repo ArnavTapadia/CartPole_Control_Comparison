@@ -1,16 +1,25 @@
 function [Q_opt, R_opt] = optimize_lqr(X0, params)
-    % Optimize the diagonal entries of Q and scalar R for LQR using fminsearch
+    % Optimize the diagonal entries of Q and scalar R for LQR using fmincon
 
-    % --- Initial guesses ---
-    Q_diag_init = [1, 1, 10, 100];  % Initial Q diagonal values
-    R_init = 0.1;                   % Initial R value
+    % --- Initial guess: Q diagonal [q1, q2, q3, q4] and scalar R ---
+    Q_diag_init = [1, 1, 10, 100];
+    R_init = 0.1;
     initial_guess = [Q_diag_init, R_init];
 
-    % --- Optimization options ---
-    options = optimset('Display', 'iter', 'TolX', 1e-2, 'TolFun', 1e-2);
+    % --- Lower bounds: Q_diag >= 0, R > 0 ---
+    lb = [0, 0, 0, 0, 1e-4];
+    ub = [];  % No upper bounds
 
-    % --- Optimize ---
-    optimal_params = fminsearch(@(p) lqr_cost_wrapper(p, X0, params), initial_guess, options);
+    % --- Optimization options ---
+    options = optimoptions('fmincon', ...
+        'Display', 'iter', ...
+        'Algorithm', 'sqp', ...
+        'TolX', 1e-3, ...
+        'TolFun', 1e-3);
+
+    % --- Run optimization ---
+    optimal_params = fmincon(@(p) lqr_cost_wrapper(p, X0, params), ...
+                             initial_guess, [], [], [], [], lb, ub, [], options);
 
     % --- Extract optimized Q and R ---
     Q_opt = diag(optimal_params(1:4));

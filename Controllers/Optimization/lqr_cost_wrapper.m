@@ -9,7 +9,12 @@ function cost = lqr_cost_wrapper(params_vec, X0, params)
     Q = diag(Q_diag);
 
     % --- Compute LQR gain matrix ---
-    K = compute_lqr_gains(params, Q, R);
+    try
+        K = compute_lqr_gains(params, Q, R);
+    catch
+        cost = 1e6;
+        return;
+    end
 
     % --- Define LQR controller ---
     force_function = @(t, X) lqr_controller(t, X, K, params);
