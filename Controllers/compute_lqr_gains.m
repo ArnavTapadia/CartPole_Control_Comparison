@@ -1,4 +1,4 @@
-function K = compute_lqr_gains(params)    
+function K = compute_lqr_gains(params, Q, R)    
     % Extract parameters
     m_c = params.m_c;
     m_p = params.m_p;
@@ -18,10 +18,6 @@ function K = compute_lqr_gains(params)
          1/m_c;
          0;
          1/(m_c+m_p)];
-
-    % Define cost matrices (tune these values)
-    Q = diag([1, 1, 10, 100]); % Penalizes theta more heavily
-    R = 0.1; % Penalizes large force inputs
 
     % Compute LQR gain matrix
     K = lqr(A, B, Q, R);

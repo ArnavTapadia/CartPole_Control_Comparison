@@ -1,5 +1,5 @@
 % ------------------------
-% compare_controllers.m - Compares controllers with same initial conditions
+% compare_controllers.m - Compares different controllers with same initial conditions
 % ------------------------
 close all;
 clear all;
@@ -28,8 +28,19 @@ motion_plots(fig_motion, T, X, 'PID Kp=45');
 plot_control_metrics(fig_metrics, T, X, U, params, 'PID Kp=45');
 
 %% Run Simulation for LQR
-K = compute_lqr_gains(params);
+% Define cost matrices (tune these values)
+Q = diag([1, 1, 10, 100]); % Penalizes theta more heavily
+R = 0.1; % Penalizes large force inputs
+K = compute_lqr_gains(params, Q, R);
 force_function = @(t, X) lqr_controller(t, X, K, params);
 [T, X, U] = simulate_pendulum(X0, force_function, params);
 motion_plots(fig_motion, T, X, 'LQR');
-plot_control_metrics(fig_metrics, T, X, U, params, 'LQR');
+plot_control_metrics(fig_metrics, T, X, U, params, 'LQR R=0.1');
+
+Q = diag([1, 1, 10, 100]); % Penalizes theta more heavily
+R = 0.001; % Penalizes large force inputs
+K = compute_lqr_gains(params, Q, R);
+force_function = @(t, X) lqr_controller(t, X, K, params);
+[T, X, U] = simulate_pendulum(X0, force_function, params);
+motion_plots(fig_motion, T, X, 'LQR');
+plot_control_metrics(fig_metrics, T, X, U, params, 'LQR R=1');
