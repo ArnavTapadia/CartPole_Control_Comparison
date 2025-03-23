@@ -16,12 +16,8 @@ manual_PID = struct('Kp', 50, 'Ki', 105, 'Kd', 10);
 manual_LQR = struct('Q', diag([1, 1, 10, 100]), 'R', 0.1);
 
 %% Initial Conditions
-initial_conditions_list = {
-    [0; 0; 0.1; 0; 0],    % Small angle
-    [0; 0; 0.2; 0; 0],    % Moderate angle
-    [0.5; 0; 0.2; 0; 0],  % Offset position
-    [0; 0; 0.1; 0.5; 0]   % Angular velocity
-};
+initial_conditions_list = initial_conditions_sweep();
+
 X0_opt = initial_conditions_list{1};  % Default IC for optimization
 
 %% Sweep Execution
