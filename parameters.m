@@ -10,7 +10,7 @@ function params = parameters()
     params.g = 9.81;         % Acceleration due to gravity (m/s^2)
     params.b = 0.0;            % Fluid friction coefficient for cart motion
     params.mu_pivot = 0.0;     % Constant fluid friction coefficient at the pivot
-    params.tspan = [0 15];   % Simulation time span (seconds)
+    params.tspan = [0 60];   % Simulation time span (seconds)
     params.control_force_max = 20; % Maximum control force that can be appliedN
     params.epsilon = 1*pi/180; % angle required to consider pendulum settled (rad)
     

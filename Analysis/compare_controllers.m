@@ -1,46 +1,47 @@
 % ------------------------
-% compare_controllers.m - Compares different controllers with same initial conditions
+% compare_controllers.m - Compares manually tuned and optimized PID and LQR controllers
 % ------------------------
 close all;
 clear all;
 clc;
 
-%% Define initial conditions
-X0 = [0; 0; 0.2; 0; 0]; % Example initial conditions
+%% Initial Conditions and Parameters
+X0 = [0; 0; 0.2; 0; 0]; % Initial condition: small angle offset
 params = parameters;
 
-%% Create Figure for Motion Plots
+%% Create Figures
 fig_motion = figure('Name', 'Motion Plots');
-fig_metrics = figure('Name', 'Metrics');
+fig_metrics = figure('Name', 'Control Metrics');
 
-%% Run Simulation for PID Kp=50
+%% --- Manually Tuned PID Controller ---
 Kp = 50; Ki = 105; Kd = 10;
 force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd, params);
 [T, X, U] = simulate_pendulum(X0, force_function, params);
-motion_plots(fig_motion, T, X, 'PID Kp=50');
-plot_control_metrics(fig_metrics, T, X, U, params, 'PID Kp=50');
+motion_plots(fig_motion, T, X, 'PID Manual');
+plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual');
 
-%% Run Simulation for PID Kp=2
-Kp = 45; Ki = 105; Kd = 10;
-force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd, params);
+%% --- Optimized PID Controller ---
+[opt_Kp, opt_Ki, opt_Kd] = optimize_pid(X0, params);
+force_function = @(t, X) pid_controller(t, X, opt_Kp, opt_Ki, opt_Kd, params);
 [T, X, U] = simulate_pendulum(X0, force_function, params);
-motion_plots(fig_motion, T, X, 'PID Kp=45');
-plot_control_metrics(fig_metrics, T, X, U, params, 'PID Kp=45');
+label = sprintf('PID Optimized');
+motion_plots(fig_motion, T, X, label);
+plot_control_metrics(fig_metrics, T, X, U, params, label);
 
-%% Run Simulation for LQR
-% Define cost matrices (tune these values)
-Q = diag([1, 1, 10, 100]); % Penalizes theta more heavily
-R = 0.1; % Penalizes large force inputs
-K = compute_lqr_gains(params, Q, R);
-force_function = @(t, X) lqr_controller(t, X, K, params);
+%% --- Manually Tuned LQR Controller ---
+Q_manual = diag([1, 1, 10, 100]); % Penalize theta + dtheta more
+R_manual = 0.1;
+K_manual = compute_lqr_gains(params, Q_manual, R_manual);
+force_function = @(t, X) lqr_controller(t, X, K_manual, params);
 [T, X, U] = simulate_pendulum(X0, force_function, params);
-motion_plots(fig_motion, T, X, 'LQR');
-plot_control_metrics(fig_metrics, T, X, U, params, 'LQR R=0.1');
+motion_plots(fig_motion, T, X, 'LQR Manual');
+plot_control_metrics(fig_metrics, T, X, U, params, 'LQR Manual');
 
-Q = diag([1, 1, 1, 1]); % Penalizes theta more heavily
-R = 1; % Penalizes large force inputs
-K = compute_lqr_gains(params, Q, R);
-force_function = @(t, X) lqr_controller(t, X, K, params);
+%% --- Optimized LQR Controller ---
+[Q_opt, R_opt] = optimize_lqr(X0, params);
+K_opt = compute_lqr_gains(params, Q_opt, R_opt);
+force_function = @(t, X) lqr_controller(t, X, K_opt, params);
+label = sprintf('LQR Optimized');
 [T, X, U] = simulate_pendulum(X0, force_function, params);
-motion_plots(fig_motion, T, X, 'LQR');
-plot_control_metrics(fig_metrics, T, X, U, params, 'LQR R=1');
+motion_plots(fig_motion, T, X, label);
+plot_control_metrics(fig_metrics, T, X, U, params, label);
