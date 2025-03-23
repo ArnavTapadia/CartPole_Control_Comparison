@@ -1,39 +1,50 @@
+function results = run_param_sweep(param_name, param_values)
 % ------------------------
-% param_sweep.m
-% General framework to evaluate controller robustness across system parameters
+% run_param_sweep.m
+% Generalized function to evaluate controller robustness for a swept parameter
+%
+% Inputs:
+%   param_name    - string (e.g. 'm_p', 'L', etc.)
+%   param_values  - vector of values to test
+%
+% Output:
+%   results       - struct array containing metric summaries and controller gains
 % ------------------------
-clear; close all; clc;
 
-%% Load base parameters and modify the target parameter
-params = parameters();
+    %% Load base parameters and modify the target parameter
+    params = parameters();
 
-%% Sweep Settings
-param_name = 'm_p';                          % Parameter to sweep
-param_values = linspace(0.05, 1.2, 6);       % Values to evaluate
+    %% Controller Settings (Manually Tuned)
+    manual_PID = struct('Kp', 50, 'Ki', 105, 'Kd', 10);
+    manual_LQR = struct('Q', diag([1, 1, 10, 100]), 'R', 0.1);
 
-%% Controller Settings
-manual_PID = struct('Kp', 50, 'Ki', 105, 'Kd', 10);
-manual_LQR = struct('Q', diag([1, 1, 10, 100]), 'R', 0.1);
+    %% Initial Conditions
+    initial_conditions_list = initial_conditions_sweep();
+    X0_opt = initial_conditions_list{1};  % Default IC for optimization
 
-%% Initial Conditions
-initial_conditions_list = initial_conditions_sweep();
+    %% Initialize Results
+    results = struct();
 
-X0_opt = initial_conditions_list{1};  % Default IC for optimization
+    for i = 1:length(param_values)
+        % Set and update swept parameter
+        params.(param_name) = param_values(i);
+        params = update_dependent_params(params);
 
-%% Sweep Execution
-results = struct();
+        fprintf('\n--- Evaluating %s = %.4f ---\n', param_name, param_values(i));
 
-for i = 1:length(param_values)
-    params.(param_name) = param_values(i);
-    params = update_dependent_params(params);
+        % Run all 4 controllers and collect metrics
+        metrics_summary = evaluate_all_controllers_for_param(params, X0_opt, initial_conditions_list, manual_PID, manual_LQR);
 
-    fprintf('\n--- Evaluating %s = %.4f ---\n', param_name, param_values(i));
+        % Store gains separately
+        controller_gains = struct();
+        for j = 1:length(metrics_summary)
+            controller_gains.(matlab.lang.makeValidName(metrics_summary(j).controller)) = metrics_summary(j).gains;
+        end
 
-    % Run all 4 controllers and collect metric summaries
-    metrics_summary = evaluate_all_controllers_for_param(params, X0_opt, initial_conditions_list, manual_PID, manual_LQR);
-
-    % Store result
-    results(i).param_swept = param_name;
-    results(i).param_value = param_values(i);
-    results(i).metrics = metrics_summary;
+        % Store result
+        results(i).param_swept = param_name;
+        results(i).param_value = param_values(i);
+        results(i).metrics = metrics_summary;
+        results(i).controller_gains = controller_gains;
+    end
 end
