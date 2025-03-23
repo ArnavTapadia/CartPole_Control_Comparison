@@ -43,18 +43,21 @@ fig_metrics = figure('Name', 'Metrics');
 % motion_plots(fig_motion, T, X, 'PID Manual 0.4');
 % plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual 0.4');
 
-X0 = [0; 0; 0.3; 0; 0];
+X0 = [0; 0; 0.2; 0; 0];
 
 for i = 1:5
 %% Run Simulation for LQR
-    params.m_p = 0.2*i;
+    params.m_p = 0.1*i;
+    params.m_c = 0.5*i; 
     params = update_dependent_params(params);
+
+    params.I
 
     Q_manual = diag([1, 1, 10, 100]); % Penalize theta + dtheta more
     R_manual = 0.1;
     K_manual = compute_lqr_gains(params, Q_manual, R_manual);
     force_function = @(t, X) lqr_controller(t, X, K_manual, params);
     [T, X, U] = simulate_pendulum(X0, force_function, params);
-    motion_plots(fig_motion, T, X, ['LQR m_p=' num2str(params.m_p)]);
-    plot_control_metrics(fig_metrics, T, X, U, params, ['LQR m_p=' num2str(params.m_p)]);
+    motion_plots(fig_motion, T, X, ['LQR m_p=' num2str(params.m_p) ' m_c= ' num2str(params.m_c)]);
+    plot_control_metrics(fig_metrics, T, X, U, params, ['LQR m_p=' num2str(params.m_p) ' m_c= ' num2str(params.m_c)]);
 end
