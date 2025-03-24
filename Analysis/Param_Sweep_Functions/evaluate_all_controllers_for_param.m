@@ -1,5 +1,6 @@
 function metrics_summary = evaluate_all_controllers_for_param(params, X0_opt, IC_list, PID_manual, LQR_manual)
-% Runs simulation for all controller types and summarizes metrics across ICs
+% Runs simulation for all controller types and summarizes metrics across ICs,
+% including controller gains used for each strategy.
 
     %% Setup
     controller_names = {'PID Manual', 'PID Optimized', 'LQR Manual', 'LQR Optimized'};
@@ -10,6 +11,8 @@ function metrics_summary = evaluate_all_controllers_for_param(params, X0_opt, IC
 
     %% Optimize Controllers Once (for current parameter set)
     [opt_Kp, opt_Ki, opt_Kd] = optimize_pid(X0_opt, params);
+    opt_PID = [opt_Kp, opt_Ki, opt_Kd];
+
     [Q_opt, R_opt] = optimize_lqr(X0_opt, params);
     K_manual = compute_lqr_gains(params, LQR_manual.Q, LQR_manual.R);
     K_opt = compute_lqr_gains(params, Q_opt, R_opt);
@@ -39,12 +42,14 @@ function metrics_summary = evaluate_all_controllers_for_param(params, X0_opt, IC
         raw_metrics{4}(j, :) = extract_final_metrics(T, Xs, U, params);
     end
 
-    %% Aggregate Metrics
+    %% Aggregate Metrics and Include Controller Metadata
     for c = 1:n_controllers
-        mean_vals = mean(raw_metrics{c}, 1);
-        std_vals = std(raw_metrics{c}, 0, 1);
-        metrics_summary(c).controller = controller_names{c};
-        metrics_summary(c).mean = mean_vals;
-        metrics_summary(c).std = std_vals;
+        controller_name = controller_names{c};
+
+        metrics_summary(c).controller = controller_name;
+        metrics_summary(c).mean = mean(raw_metrics{c}, 1);
+        metrics_summary(c).std = std(raw_metrics{c}, 0, 1);
+        metrics_summary(c).gains = get_controller_metadata( ...
+            controller_name, PID_manual, opt_PID, LQR_manual, Q_opt, R_opt, K_manual, K_opt);
     end
 end
