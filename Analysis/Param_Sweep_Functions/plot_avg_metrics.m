@@ -21,7 +21,7 @@ function plot_avg_metrics(T, x_vals, x_label_name)
         stds  = cellfun(@(m) m(CONTROL_EFFORT_IDX, 2), data);
 
         errorbar(x_vals, means, stds, '.', ...
-            'Color', colors(i,:), 'MarkerSize', 14, ...
+            'Color', colors(i,:), 'MarkerSize', 10, ...
             'LineWidth', 1.2, 'DisplayName', controller_names{i});
         plot_best_fit_line(x_vals, means, colors(i,:));
     end
@@ -41,7 +41,7 @@ function plot_avg_metrics(T, x_vals, x_label_name)
         stds  = cellfun(@(m) m(SETTLING_TIME_IDX, 2), data);
 
         errorbar(x_vals, means, stds, '.', ...
-            'Color', colors(i,:), 'MarkerSize', 14, 'LineWidth', 1.2);
+            'Color', colors(i,:), 'MarkerSize', 10, 'LineWidth', 1.2);
         plot_best_fit_line(x_vals, means, colors(i,:));
     end
     ylabel('Settling Time (s)', 'FontSize', 14);
@@ -59,7 +59,7 @@ function plot_avg_metrics(T, x_vals, x_label_name)
         stds  = cellfun(@(m) m(OVERSHOOT_IDX, 2), data);
 
         errorbar(x_vals, means, stds, '.', ...
-            'Color', colors(i,:), 'MarkerSize', 14, 'LineWidth', 1.2);
+            'Color', colors(i,:), 'MarkerSize', 10, 'LineWidth', 1.2);
         plot_best_fit_line(x_vals, means, colors(i,:));
     end
     ylabel('Overshoot (rad)', 'FontSize', 14);

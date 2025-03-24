@@ -7,9 +7,9 @@ function ICs = initial_conditions_sweep()
     x = 0;
 
     % Sweep ranges (angle bounded within ±0.45 rad)
-    dx_vals     = linspace(-1.5, 1.5, 5);   % cart velocity
-    theta_vals  = linspace(-0.45, 0.45, 5); % pendulum angle
-    dtheta_vals = linspace(-2.5, 2.5, 5);   % angular velocity
+    dx_vals     = linspace(-1, 1, 4);   % cart velocity
+    theta_vals  = linspace(-0.3, 0.3, 4); % pendulum angle
+    dtheta_vals = linspace(-1, 1, 4);   % angular velocity
 
     % Build grid of combinations
     ICs = {};

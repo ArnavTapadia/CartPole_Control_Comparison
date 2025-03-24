@@ -12,7 +12,7 @@ params = parameters();
 %% Sweep Settings
 % Example sweep: pendulum mass
 param_name = 'm_p';
-param_values = linspace(0.05, 1.2, 6);  % kg
+param_values = linspace(0.05, 1.5, 10);  % kg
 
 % Run parameter sweep
 results = run_param_sweep(param_name, param_values);
