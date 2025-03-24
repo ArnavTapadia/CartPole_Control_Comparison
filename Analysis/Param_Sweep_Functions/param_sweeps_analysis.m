@@ -15,20 +15,18 @@ results = run_param_sweep(param_name, param_values);
 T = convert_param_sweep_results_to_table(results);
 x_vals = param_values ./ params.m_c;
 x_label = 'm_p/m_c';
-figure('Name','Sweep m_p');
 plot_avg_metrics(T, x_vals, x_label);
 
 
 %% ========== Sweep 2: Pendulum Length (L) ==========
 params = parameters();
 param_name = 'L';
-param_values = linspace(0.1, 2, 10);  % m
+param_values = linspace(0.1, 1, 10);  % m
 
 results = run_param_sweep(param_name, param_values);
 T = convert_param_sweep_results_to_table(results);
 x_vals = param_values;
 x_label = 'Pendulum Length L (m)';
-figure('Name','Sweep L');
 plot_avg_metrics(T, x_vals, x_label);
 
 
@@ -41,7 +39,6 @@ results = run_param_sweep(param_name, param_values);
 T = convert_param_sweep_results_to_table(results);
 x_vals = param_values;
 x_label = 'Cart Fluid Friction b (Ns/m)';
-figure('Name','Sweep b');
 plot_avg_metrics(T, x_vals, x_label);
 
 
@@ -54,5 +51,4 @@ results = run_param_sweep(param_name, param_values);
 T = convert_param_sweep_results_to_table(results);
 x_vals = param_values;
 x_label = 'Pivot Friction \mu_{pivot} (Nms/rad)';
-figure('Name','Sweep mu_pivot');
 plot_avg_metrics(T, x_vals, x_label);
