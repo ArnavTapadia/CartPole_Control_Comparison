@@ -1,9 +1,6 @@
 function plot_avg_metrics(T, x_vals, x_label_name)
 % Plots average control effort, settling time, and overshoot vs. a swept parameter.
-% Inputs:
-%   T             - Table from convert_param_sweep_results_to_table
-%   x_vals        - x-axis values to use (same length as T)
-%   x_label_name  - string for labeling x-axis
+% Fits each controller with a line of best fit and keeps legend inside first plot.
 
     controller_names = T.Properties.VariableNames(3:end);  % Skip Param, Value
     colors = lines(numel(controller_names));               % Consistent colors
@@ -23,15 +20,18 @@ function plot_avg_metrics(T, x_vals, x_label_name)
         data = T.(controller_names{i});
         means = cellfun(@(m) m(CONTROL_EFFORT_IDX, 1), data);
         stds  = cellfun(@(m) m(CONTROL_EFFORT_IDX, 2), data);
-        errorbar(x_vals, means, stds, '.', 'Color', colors(i,:), ...
-                 'MarkerSize', 14, 'LineWidth', 1.2, ...
-                 'DisplayName', controller_names{i});
+
+        % Errorbar + fit
+        errorbar(x_vals, means, stds, '.', ...
+            'Color', colors(i,:), 'MarkerSize', 14, ...
+            'LineWidth', 1.2, 'DisplayName', controller_names{i});
+        plot_best_fit_line(x_vals, means, colors(i,:));
     end
     ylabel('Control Effort (N^2·s)');
     xlabel(x_label_name, 'Interpreter', 'none');
     title('Average Control Effort');
     grid on;
-    legend('Location', 'bestoutside');
+    legend('Location', 'northeast');  % Legend inside first plot
 
     %% Subplot 2: Settling Time
     subplot(3,1,2);
@@ -40,9 +40,10 @@ function plot_avg_metrics(T, x_vals, x_label_name)
         data = T.(controller_names{i});
         means = cellfun(@(m) m(SETTLING_TIME_IDX, 1), data);
         stds  = cellfun(@(m) m(SETTLING_TIME_IDX, 2), data);
-        errorbar(x_vals, means, stds, '.', 'Color', colors(i,:), ...
-                 'MarkerSize', 14, 'LineWidth', 1.2, ...
-                 'DisplayName', controller_names{i});
+
+        errorbar(x_vals, means, stds, '.', ...
+            'Color', colors(i,:), 'MarkerSize', 14, 'LineWidth', 1.2);
+        plot_best_fit_line(x_vals, means, colors(i,:));
     end
     ylabel('Settling Time (s)');
     xlabel(x_label_name, 'Interpreter', 'none');
@@ -56,15 +57,15 @@ function plot_avg_metrics(T, x_vals, x_label_name)
         data = T.(controller_names{i});
         means = cellfun(@(m) m(OVERSHOOT_IDX, 1), data);
         stds  = cellfun(@(m) m(OVERSHOOT_IDX, 2), data);
-        errorbar(x_vals, means, stds, '.', 'Color', colors(i,:), ...
-                 'MarkerSize', 14, 'LineWidth', 1.2, ...
-                 'DisplayName', controller_names{i});
+
+        errorbar(x_vals, means, stds, '.', ...
+            'Color', colors(i,:), 'MarkerSize', 14, 'LineWidth', 1.2);
+        plot_best_fit_line(x_vals, means, colors(i,:));
     end
     ylabel('Overshoot (rad)');
     xlabel(x_label_name, 'Interpreter', 'none');
     title('Average Overshoot');
     grid on;
 
-    % Shared font settings
-    set(gcf, 'Position', [100 100 800 800]);
+    set(gcf, 'Position', [100 100 800 900]);  % Taller for 3 plots
 end
