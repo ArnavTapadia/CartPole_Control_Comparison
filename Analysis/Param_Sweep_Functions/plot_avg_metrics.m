@@ -10,7 +10,7 @@ function plot_avg_metrics(T, x_vals, x_label_name)
     SETTLING_TIME_IDX = 5;
     OVERSHOOT_IDX = 6;
 
-    jitter_amount = 0.005 * (max(x_vals)-min(x_vals));  % Jitter scale relative to x range
+    jitter_amount = 0.0025 * (max(x_vals)-min(x_vals));  % Jitter scale relative to x range
 
     figure;
 
@@ -32,7 +32,7 @@ function plot_avg_metrics(T, x_vals, x_label_name)
     ylabel('Control Effort (N^2·s)', 'FontSize', 14);
     title('Average Control Effort', 'FontSize', 14);
     grid on; grid minor;
-    legend('Location', 'northeast', 'FontSize', 13);
+    legend('Location', 'northwest', 'FontSize', 13);
     set(gca, 'FontSize', 14);
 
     %% Subplot 2: Settling Time
