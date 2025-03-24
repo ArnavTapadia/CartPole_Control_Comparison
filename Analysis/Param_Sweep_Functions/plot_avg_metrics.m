@@ -1,6 +1,6 @@
 function plot_avg_metrics(T, x_vals, x_label_name)
 % Plots average control effort, settling time, and overshoot vs. a swept parameter.
-% Fits each controller with a line of best fit and keeps legend inside first plot.
+% Fits each controller with a line of best fit and displays fit equations outside the plot.
 
     controller_names = T.Properties.VariableNames(3:end);  % Skip Param, Value
     colors = lines(numel(controller_names));               % Consistent colors
@@ -11,7 +11,6 @@ function plot_avg_metrics(T, x_vals, x_label_name)
     OVERSHOOT_IDX = 6;
 
     figure;
-    sgtitle('Average Metrics Across Controllers');
 
     %% Subplot 1: Control Effort
     subplot(3,1,1);
@@ -21,17 +20,17 @@ function plot_avg_metrics(T, x_vals, x_label_name)
         means = cellfun(@(m) m(CONTROL_EFFORT_IDX, 1), data);
         stds  = cellfun(@(m) m(CONTROL_EFFORT_IDX, 2), data);
 
-        % Errorbar + fit
         errorbar(x_vals, means, stds, '.', ...
             'Color', colors(i,:), 'MarkerSize', 14, ...
             'LineWidth', 1.2, 'DisplayName', controller_names{i});
         plot_best_fit_line(x_vals, means, colors(i,:));
     end
-    ylabel('Control Effort (N^2·s)');
-    xlabel(x_label_name, 'Interpreter', 'none');
-    title('Average Control Effort');
+    ylabel('Control Effort (N^2·s)', 'FontSize', 14);
+    xlabel(x_label_name, 'Interpreter', 'none', 'FontSize', 14);
+    title('Average Control Effort', 'FontSize', 14);
     grid on;
-    legend('Location', 'northeast');  % Legend inside first plot
+    legend('Location', 'northeast', 'FontSize', 13);
+    set(gca, 'FontSize', 14);
 
     %% Subplot 2: Settling Time
     subplot(3,1,2);
@@ -45,10 +44,11 @@ function plot_avg_metrics(T, x_vals, x_label_name)
             'Color', colors(i,:), 'MarkerSize', 14, 'LineWidth', 1.2);
         plot_best_fit_line(x_vals, means, colors(i,:));
     end
-    ylabel('Settling Time (s)');
-    xlabel(x_label_name, 'Interpreter', 'none');
-    title('Average Settling Time');
+    ylabel('Settling Time (s)', 'FontSize', 14);
+    xlabel(x_label_name, 'Interpreter', 'none', 'FontSize', 14);
+    title('Average Settling Time', 'FontSize', 14);
     grid on;
+    set(gca, 'FontSize', 14);
 
     %% Subplot 3: Overshoot
     subplot(3,1,3);
@@ -62,10 +62,11 @@ function plot_avg_metrics(T, x_vals, x_label_name)
             'Color', colors(i,:), 'MarkerSize', 14, 'LineWidth', 1.2);
         plot_best_fit_line(x_vals, means, colors(i,:));
     end
-    ylabel('Overshoot (rad)');
-    xlabel(x_label_name, 'Interpreter', 'none');
-    title('Average Overshoot');
+    ylabel('Overshoot (rad)', 'FontSize', 14);
+    xlabel(x_label_name, 'Interpreter', 'none', 'FontSize', 14);
+    title('Average Overshoot', 'FontSize', 14);
     grid on;
+    set(gca, 'FontSize', 14);
 
-    set(gcf, 'Position', [100 100 800 900]);  % Taller for 3 plots
+    set(gcf, 'Position', [100 100 900 950]);  % Larger figure window
 end

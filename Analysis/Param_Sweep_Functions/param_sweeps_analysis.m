@@ -3,7 +3,7 @@
 % General parameter sweep script for evaluating controller performance
 % and plotting selected metrics
 % ------------------------
-
+set(0,'DefaultFigureWindowStyle','docked')
 clear; close all; clc;
 
 %% Load base parameters
