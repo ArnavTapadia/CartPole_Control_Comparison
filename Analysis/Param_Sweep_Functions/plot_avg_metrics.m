@@ -10,7 +10,7 @@ function plot_avg_metrics(T, x_vals, x_label_name)
     SETTLING_TIME_IDX = 5;
     OVERSHOOT_IDX = 6;
 
-    jitter_amount = 0.01 * (max(x_vals)-min(x_vals));  % Jitter scale relative to x range
+    jitter_amount = 0.005 * (max(x_vals)-min(x_vals));  % Jitter scale relative to x range
 
     figure;
 
@@ -74,4 +74,5 @@ function plot_avg_metrics(T, x_vals, x_label_name)
     grid on; grid minor;
     set(gca, 'FontSize', 14);
 
-    set(gcf, 'Position', [100 10
+    set(gcf, 'Position', [100 100 900 950]);  % Larger figure window
+end
