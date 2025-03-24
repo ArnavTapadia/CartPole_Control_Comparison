@@ -51,5 +51,7 @@ function [weighted_cost, exceeded_angle, control_effort, theta_error_integral, s
     end
 
     %% Define the weighted cost function
-    weighted_cost = 0.1*theta_error_integral(end) + 1*control_effort(end) + 1*energy_expended(end) + 0.1 * cart_deviation(end);
+    weighted_cost = 0.1*theta_error_integral(end) + 1*control_effort(end) ... 
+        + 0.5*energy_expended(end) + 0.5 * cart_deviation(end) ...
+        + 0.25*overshoot + 0.5*settling_time;
 end
