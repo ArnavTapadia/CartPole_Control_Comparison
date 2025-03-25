@@ -34,21 +34,22 @@ function motion_plots(fig, T, X, controller_name)
     subplot(2, 1, 1);
     hold on;
     plot(T, x, 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    xlabel('Time (s)');
-    ylabel('Cart Position (m)');
-    title('Cart Position vs. Time');
+    xlabel('Time (s)', 'FontSize', 14);
+    ylabel('Cart Position (m)', 'FontSize', 14);
+    title('Cart Position vs. Time', 'FontSize', 15);
     grid on;
-    legend show;
+    legend('FontSize', 13);
 
     % Subplot 2: Pendulum Angle Over Time
     subplot(2, 1, 2);
     hold on;
     plot(T, theta, 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    xlabel('Time (s)');
-    ylabel('Pendulum Angle (deg)');
-    title('Pendulum Angle vs. Time');
+    xlabel('Time (s)', 'FontSize', 14);
+    ylabel('Pendulum Angle (deg)', 'FontSize', 14);
+    title('Pendulum Angle vs. Time', 'FontSize', 15);
     grid on;
-    legend show;
+    legend('FontSize', 13);
+    xlim([0,5])
 
     hold off;
 end
