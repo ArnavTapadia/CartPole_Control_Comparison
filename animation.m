@@ -23,9 +23,9 @@ function animation(T, X, params)
     hold on;
     xlim([-track_length, track_length]);
     ylim([-L-0.5, L+0.5]);
-    xlabel('Horizontal Position (m)');
-    ylabel('Vertical Position (m)');
-    title('Cart-Pendulum Motion');
+    xlabel('Horizontal Position (m)', 'FontSize', 14);
+    ylabel('Vertical Position (m)', 'FontSize', 14);
+    title('Cart-Pendulum Motion', 'FontSize', 15);
 
     % Draw ground line (track)
     plot([-track_length, track_length], [0, 0], 'k', 'LineWidth', 2);
