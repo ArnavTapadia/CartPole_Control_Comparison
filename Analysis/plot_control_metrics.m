@@ -41,9 +41,9 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     subplot(3, 2, 1);
     hold on;
     plot(T, control_effort, 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    xlabel('Time (s)');
-    ylabel('Control Effort');
-    title('Integrated Control Effort');
+    xlabel('Time (s)', 'FontSize', 13);
+    ylabel('Control Effort (N^2·s)', 'FontSize', 13);
+    title('Control Effort', 'FontSize', 14);
     grid on;
     legend show;
 
@@ -51,9 +51,9 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     subplot(3, 2, 2);
     hold on;
     plot(T, theta_error_integral, 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    xlabel('Time (s)');
-    ylabel('Theta Error Integral');
-    title('Integrated Squared Theta Error');
+    xlabel('Time (s)','FontSize', 13);
+    ylabel('Theta Error Integral (rad·s)','FontSize', 13);
+    title('Integrated Squared Theta Error','FontSize', 14);
     grid on;
     legend show;
 
@@ -66,9 +66,9 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     end
     xticks(1:length(controller_names));
     xticklabels(controller_names);
-    xlabel('Controller');
-    ylabel('Settling Time (s)');
-    title('Settling Time Comparison (Time Until |angle| < 1 degree)');
+    xlabel('Controller','FontSize', 13);
+    ylabel('Settling Time (s)','FontSize', 13);
+    title('Settling Time Comparison (Time Until |angle| < 1 degree)','FontSize', 14);
     grid on;
 
     % Subplot 4: Overshoot (Bar Graph)
@@ -80,18 +80,18 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     end
     xticks(1:length(controller_names));
     xticklabels(controller_names);
-    xlabel('Controller');
-    ylabel('Overshoot (rad)');
-    title('Largest Overshoot Comparison');
+    xlabel('Controller','FontSize', 13);
+    ylabel('Overshoot (rad)','FontSize', 13);
+    title('Largest Overshoot Comparison','FontSize', 14);
     grid on;
 
     % Subplot 5: Energy Expended by External Force
     subplot(3, 2, 5);
     hold on;
     plot(T, energy_expended, 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    xlabel('Time (s)');
-    ylabel('Energy Expended');
-    title('Work Done by External Force');
+    xlabel('Time (s)','FontSize', 13);
+    ylabel('Energy Expended (J)','FontSize', 13);
+    title('Work Done by External Force','FontSize', 14);
     grid on;
     legend show;
 
@@ -99,9 +99,9 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     subplot(3, 2, 6);
     hold on;
     plot(T, U, 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
-    xlabel('Time (s)');
-    ylabel('Control Force (N)');
-    title('Control Force Over Time');
+    xlabel('Time (s)','FontSize', 13);
+    ylabel('Control Force (N)','FontSize', 13);
+    title('Control Force Over Time','FontSize', 14);
     grid on;
     legend show;
     
