@@ -44,6 +44,8 @@ function motion_plots(fig, T, X, controller_name)
     subplot(2, 1, 2);
     hold on;
     plot(T, theta, 'Color', color, 'LineWidth', 1.5, 'DisplayName', controller_name);
+    yline(1, '--k', 'HandleVisibility','off','LineWidth', 1.5)
+    yline(-1, '--k', 'HandleVisibility','off','LineWidth', 1.5)
     xlabel('Time (s)', 'FontSize', 14);
     ylabel('Pendulum Angle (deg)', 'FontSize', 14);
     title('Pendulum Angle vs. Time', 'FontSize', 15);
