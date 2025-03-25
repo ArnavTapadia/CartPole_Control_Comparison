@@ -18,12 +18,7 @@ fig_metrics = figure('Name', 'Metrics');
 Kp = 50; Ki = 105; Kd = 10;
 force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd, params);
 
-X0 = [0; 0; 0.1; 0; 0];
-[T, X, U] = simulate_pendulum(X0, force_function, params);
-motion_plots(fig_motion, T, X, 'PID Manual \theta_0 = 0.1');
-plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.1');
 
-X0 = [0; 0; 0.3; 0; 0];
 [T, X, U] = simulate_pendulum(X0, force_function, params);
 motion_plots(fig_motion, T, X, 'PID Manual \theta_0 = 0.3');
 plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.3');
@@ -31,7 +26,7 @@ plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.3');
 X0 = [0; 0; 0.5; 0; 0];
 [T, X, U] = simulate_pendulum(X0, force_function, params);
 motion_plots(fig_motion, T, X, 'PID Manual \theta_0 = 0.5');
-plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.5');
+plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.3');
 
 
 % X0 = [0; 0; -0.3; 0; 0]; % Example initial conditions
