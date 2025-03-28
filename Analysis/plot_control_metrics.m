@@ -46,6 +46,7 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     title('Control Effort', 'FontSize', 14);
     grid on;
     legend show;
+    xlim([0,10])
 
     % Subplot 2: Integrated Squared Theta Error
     subplot(3, 2, 2);
@@ -56,6 +57,7 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     title('Integrated Squared Theta Error','FontSize', 14);
     grid on;
     legend show;
+    xlim([0,10])
 
     % Subplot 3: Settling Time (Bar Graph)
     subplot(3, 2, 3);
@@ -94,6 +96,7 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     title('Work Done by External Force','FontSize', 14);
     grid on;
     legend show;
+    xlim([0,10])
 
     % Subplot 6: Control Force vs Time
     subplot(3, 2, 6);
@@ -104,6 +107,7 @@ function plot_control_metrics(fig, T, X, U, params, controller_name)
     title('Control Force Over Time','FontSize', 14);
     grid on;
     legend show;
+    xlim([0,10])
     
     hold off;
 end

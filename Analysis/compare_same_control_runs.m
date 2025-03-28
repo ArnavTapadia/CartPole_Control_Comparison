@@ -18,21 +18,23 @@ fig_metrics = figure('Name', 'Metrics');
 Kp = 50; Ki = 105; Kd = 10;
 force_function = @(t, X) pid_controller(t, X, Kp, Ki, Kd, params);
 
-X0 = [0; 0; 0.1; 0; 0];
+X0 = [0; 0; 0.2; 0; 0];
 [T, X, U] = simulate_pendulum(X0, force_function, params);
-motion_plots(fig_motion, T, X, 'PID Manual \theta_0 = 0.1');
-plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.1');
-
-X0 = [0; 0; 0.3; 0; 0];
-[T, X, U] = simulate_pendulum(X0, force_function, params);
-motion_plots(fig_motion, T, X, 'PID Manual \theta_0 = 0.3');
-plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.3');
+motion_plots(fig_motion, T, X, 'PID Manual \theta_0 = 0.2');
+plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.2');
 
 X0 = [0; 0; 0.5; 0; 0];
 [T, X, U] = simulate_pendulum(X0, force_function, params);
 motion_plots(fig_motion, T, X, 'PID Manual \theta_0 = 0.5');
 plot_control_metrics(fig_metrics, T, X, U, params, 'PID Manual \theta_0 = 0.5');
 
+Q_manual = diag([1, 1, 1, 1]); % Penalize theta + dtheta more
+R_manual = 0.1;
+K_manual = compute_lqr_gains(params, Q_manual, R_manual);
+force_function = @(t, X) lqr_controller(t, X, K_manual, params);
+[T, X, U] = simulate_pendulum(X0, force_function, params);
+motion_plots(fig_motion, T, X, 'LQR Manual \theta_0 = 0.3');
+plot_control_metrics(fig_metrics, T, X, U, params, 'LQR Manual \theta_0 = 0.3');
 
 % X0 = [0; 0; -0.3; 0; 0]; % Example initial conditions
 % Kp = 50; Ki = 105; Kd = 10;
